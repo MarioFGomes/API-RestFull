@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <h2>Login</h2>
+    <form action="" id="form3">
+        <label for="">email</label>
+        <input type="email" id="emailLogin" placeholder="Digite o seu email">
+        <label for="">password</label>
+        <input type="password" id="passwordLogin" placeholder="******">
+        <button onclick="Logar()">Logar</button>
+    </form>
+
+    <hr>
+
+    <h1>Tabela de Games</h1>
+    <ul></ul>
+
+    <hr>
+    <h2>Cadastro Novo Game</h2>
+
+    <form action="" id="form1">
+        <label for="title">Título</label>
+        <input type="text" name="title" id="title" placeholder="Digite o Titulo"><br>
+        <label for="year">Ano</label>
+        <input type="number" name="year" id="year"> <br>
+        <label for="price">Preço</label>
+        <input type="number" name="price" id="price"> <br>
+        <button type="submit">Salvar</button>
+    </form>
+
+    <hr>
+
+    <h2>Editar Game</h2>
+
+    <form action="" id="form2">
+        <label for="title">Título</label>
+        <input type="hidden" name="id" id="idEdit">
+        <input type="text" name="title" id="titleEdit" placeholder="Digite o Titulo"><br>
+        <label for="year">Ano</label>
+        <input type="number" name="year" id="yearEdit"> <br>
+        <label for="price">Preço</label>
+        <input type="number" name="price" id="priceEdit"> <br>
+        <button type="submit">Editar</button>
+    </form>
+
+
+
+    
+    <script src="./src/js/axios.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>-->
+    <script>
+        let ul=document.querySelector('ul');
+        
+        let form1=document.getElementById('form1');
+
+        let form2=document.getElementById('form2');
+
+        let games;
+
+
+        let axiosConfig={
+            headers:{
+                Authorization: "Bearer "+localStorage.getItem("token")
+            }
+        }
+
+
+        function Logar(){
+            let form=document.getElementById("form3");
+                form.addEventListener('submit',(e)=>{
+                    e.preventDefault();
+                })
+            let emailLogin=document.getElementById("emailLogin");
+            let passwordLogin=document.getElementById("passwordLogin");
+
+            let email=emailLogin.value;
+            let Password=passwordLogin.value;
+
+            axios.post("http://localhost:8080/auth",{email,Password}).then(res=>{             
+                let token=res.data.token;
+                localStorage.setItem("token",token);
+                axiosConfig.headers.Authorization="Bearer "+localStorage.getItem("token");
+
+            }).catch(error=>{
+                alert(error);
+            })
+        }
+
+     
+        axios.get('http://localhost:8080/games',axiosConfig).then(response=>{
+            games=response.data.games
+            games.forEach(element => {
+                let item=document.createElement('li')
+                item.innerHTML=`<strong>ID</strong>:${element.id} - <strong>Title</strong>:${element.title} - <strong>Ano</strong>:${element.year} - <strong>Preço</strong>:${element.price} </strong> <br>`
+                item.setAttribute("data-id",element.id);
+                item.setAttribute("data-title",element.title);
+                item.setAttribute("data-year",element.year);
+                item.setAttribute("data-price",element.price);
+
+                let btn=document.createElement('button')
+               btn.innerHTML="Deletar"
+
+               let btnEdit=document.createElement('button')
+               btnEdit.innerHTML="Editar"
+
+               item.appendChild(btn);
+               item.appendChild(btnEdit);
+               ul.appendChild(item)
+
+               btn.addEventListener("click",()=>{
+                let id=item.getAttribute("data-id");
+                DeleteGame(id);
+               })
+            
+
+               btnEdit.addEventListener("click",()=>{
+                LoadListItem(item);
+               })
+            });
+        }).catch(error=>{
+            console.log(error)
+        });
+
+        form1.addEventListener('submit',(e)=>{
+            e.preventDefault();
+            createGame();
+            
+        })
+
+        form2.addEventListener('submit',(e)=>{
+            e.preventDefault();
+            UpdateGame();
+            
+        })
+
+
+        function createGame(){
+            let title=document.getElementById('title');
+            let year=document.getElementById('year');
+            let price=document.getElementById('price');
+
+            let game={
+                title:title.value,
+                year:year.value,
+                price:price.value
+            }
+
+           axios.post('http://localhost:8080/game',game,axiosConfig).then(result=>{
+                alert(result.statusText);
+           }).catch(error=>{
+                console.log(error)
+           })
+            
+        }
+
+        function DeleteGame(id){
+         axios.delete('http://localhost:8080/game/'+id,axiosConfig).then(result=>{
+            console.log(result)
+         }).catch(error=>{
+            console.log(error);
+         })
+
+        }
+
+        function LoadListItem(item){
+            let id=document.getElementById('idEdit');
+            let title=document.getElementById('titleEdit');
+            let year=document.getElementById('yearEdit');
+            let price=document.getElementById('priceEdit');
+
+            id.value=item.getAttribute('data-id');
+            title.value=item.getAttribute('data-title');
+            year.value=item.getAttribute('data-year');
+            price.value=item.getAttribute('data-price');
+
+           
+        }
+
+        function UpdateGame(){
+
+            let id=document.getElementById('idEdit');
+            let title=document.getElementById('titleEdit');
+            let year=document.getElementById('yearEdit');
+            let price=document.getElementById('priceEdit');
+
+            let game={           
+                title:title.value,
+                year:year.value,
+                price:price.value
+            }
+
+            axios.put('http://localhost:8080/game/'+id.value,game,axiosConfig).then(result=>{
+                alert(result.statusText);
+           }).catch(error=>{
+                console.log(error)
+           })
+        }
+    </script>
+</body>
+</html>
