@@ -5,8 +5,56 @@
         "description":"This is the API for create Game",
         "version":"1.0.1",
         "contact":{
-            "email":"marioferreiragomes333@gmail.com",
-            "GitHub":"https://github.com/MarioFGomes"
+            "email":"marioferreiragomes333@gmail.com"
+        }
+    },
+    "servers":[
+        {
+        "url":"http://localhost:8080"
+        }
+],
+    "paths": {
+        "/Login":{
+            "post":{
+                "tags":[
+                    "Auth"
+                ],
+                "summary":"Login",
+                "description":"Login to create a Token",
+                "requestBody":{
+                    "required":true,
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "type":"object",
+                                "properties":{
+                                    "email":{"type":"string"},
+                                    "Password":{"type":"string"}
+                                },
+                                "example":{
+                                    "email":"example@example.com",
+                                    "Password":"123333"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200":{
+                        "description":"Created",
+                        "contents":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "Token":{"type":"string"}
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

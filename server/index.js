@@ -146,7 +146,7 @@ app.put('/game/:id',Auth,(req,res)=>{
 });
 
 app.post('/auth',(req,res)=>{ 
-    console.log(req.body);
+    
     if(email!=undefined){
        let user= BD.users.find(user=>user.email==email);
        
