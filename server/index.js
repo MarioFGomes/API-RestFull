@@ -1,5 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const Swagger = require('swagger-ui-express');
+const swaggerFile = require('../swagger.json');
 const app=express();
 const BD = require('./BD');
 const cors=require('cors')
@@ -8,6 +10,7 @@ const JWT=require('jsonwebtoken')
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
+app.use("/api-docs",Swagger.serve,Swagger.setup(swaggerFile))
 
  const JWTSecrete="fhfruidfufhrefhfyrfgfrfyfdffaasedddewwda";
 
@@ -142,9 +145,8 @@ app.put('/game/:id',Auth,(req,res)=>{
     }
 });
 
-app.post('/auth',(req,res)=>{
-    let {email,Password}=req.body;
-       
+app.post('/auth',(req,res)=>{ 
+    console.log(req.body);
     if(email!=undefined){
        let user= BD.users.find(user=>user.email==email);
        

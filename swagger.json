@@ -1,0 +1,12 @@
+{
+    "openapi":"3.0.0",
+    "info":{
+        "title":"RestFull API Documentation",
+        "description":"This is the API for create Game",
+        "version":"1.0.1",
+        "contact":{
+            "email":"marioferreiragomes333@gmail.com",
+            "GitHub":"https://github.com/MarioFGomes"
+        }
+    }
+}

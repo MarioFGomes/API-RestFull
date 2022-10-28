@@ -4,11 +4,28 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="./src/css/Waves.css">
+    <link rel="stylesheet" href="./src/css/style.css">
+    <link rel="stylesheet" href="../server/dist/output.css">
+    <link href="https: //fonts.googleapis.com/css2? family= Roboto & display=swap" rel="stylesheet">
+    <style>
+        body{
+        font-family: Roboto,sans-serif;
+}
+    </style>
+    <title>Consumindo API</title>
 </head>
 <body>
 
-    <h2>Login</h2>
+    
+    <!--Hey! This is the original version
+of Simple CSS Waves-->
+
+<div class="header">
+
+<!--Content before waves-->
+<div class="w-16 md:w-32 lg:w-48 h-8 p-4 bg-white " id="login">
+    <h2 class="text-2xl #67e8f9">Login</h2>
     <form action="" id="form3">
         <label for="">email</label>
         <input type="email" id="emailLogin" placeholder="Digite o seu email">
@@ -16,14 +33,18 @@
         <input type="password" id="passwordLogin" placeholder="******">
         <button onclick="Logar()">Logar</button>
     </form>
+</div>
 
-    <hr>
+    
 
-    <h1>Tabela de Games</h1>
-    <ul></ul>
+    <div class="tabelaGames" style="display:none">
+        <h1>Tabela de Games</h1>
+        <ul></ul>
+    </div>
 
-    <hr>
-    <h2>Cadastro Novo Game</h2>
+    
+    <div class="cadastroNovoGame" style="display:none;">
+        <h2>Cadastro Novo Game</h2>
 
     <form action="" id="form1">
         <label for="title">Título</label>
@@ -34,10 +55,13 @@
         <input type="number" name="price" id="price"> <br>
         <button type="submit">Salvar</button>
     </form>
+    </div>
 
-    <hr>
+   
 
-    <h2>Editar Game</h2>
+   <div class="editarGame" style="display:none;">
+
+     <h2>Editar Game</h2>
 
     <form action="" id="form2">
         <label for="title">Título</label>
@@ -49,159 +73,36 @@
         <input type="number" name="price" id="priceEdit"> <br>
         <button type="submit">Editar</button>
     </form>
+   </div>
 
+<!--Waves Container-->
+<div>
+<svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+<defs>
+<path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+</defs>
+<g class="parallax">
+<use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7" />
+<use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
+<use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
+<use xlink:href="#gentle-wave" x="48" y="7" fill="#fff" />
+</g>
+</svg>
+</div>
+<!--Waves end-->
 
+</div>
+<!--Header ends-->
 
-    
+<!--Content starts-->
+<div class="content flex">
+<p>By.Goodkatz | Free to use <a href="https://animatedbackgrounds.me/" target="_blank">for found more</a></p>
+</div>
+<!--Content ends-->
+
     <script src="./src/js/axios.min.js"></script>
     <!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>-->
-    <script>
-        let ul=document.querySelector('ul');
-        
-        let form1=document.getElementById('form1');
-
-        let form2=document.getElementById('form2');
-
-        let games;
-
-
-        let axiosConfig={
-            headers:{
-                Authorization: "Bearer "+localStorage.getItem("token")
-            }
-        }
-
-
-        function Logar(){
-            let form=document.getElementById("form3");
-                form.addEventListener('submit',(e)=>{
-                    e.preventDefault();
-                })
-            let emailLogin=document.getElementById("emailLogin");
-            let passwordLogin=document.getElementById("passwordLogin");
-
-            let email=emailLogin.value;
-            let Password=passwordLogin.value;
-
-            axios.post("http://localhost:8080/auth",{email,Password}).then(res=>{             
-                let token=res.data.token;
-                localStorage.setItem("token",token);
-                axiosConfig.headers.Authorization="Bearer "+localStorage.getItem("token");
-
-            }).catch(error=>{
-                alert(error);
-            })
-        }
-
-     
-        axios.get('http://localhost:8080/games',axiosConfig).then(response=>{
-            games=response.data.games
-            games.forEach(element => {
-                let item=document.createElement('li')
-                item.innerHTML=`<strong>ID</strong>:${element.id} - <strong>Title</strong>:${element.title} - <strong>Ano</strong>:${element.year} - <strong>Preço</strong>:${element.price} </strong> <br>`
-                item.setAttribute("data-id",element.id);
-                item.setAttribute("data-title",element.title);
-                item.setAttribute("data-year",element.year);
-                item.setAttribute("data-price",element.price);
-
-                let btn=document.createElement('button')
-               btn.innerHTML="Deletar"
-
-               let btnEdit=document.createElement('button')
-               btnEdit.innerHTML="Editar"
-
-               item.appendChild(btn);
-               item.appendChild(btnEdit);
-               ul.appendChild(item)
-
-               btn.addEventListener("click",()=>{
-                let id=item.getAttribute("data-id");
-                DeleteGame(id);
-               })
-            
-
-               btnEdit.addEventListener("click",()=>{
-                LoadListItem(item);
-               })
-            });
-        }).catch(error=>{
-            console.log(error)
-        });
-
-        form1.addEventListener('submit',(e)=>{
-            e.preventDefault();
-            createGame();
-            
-        })
-
-        form2.addEventListener('submit',(e)=>{
-            e.preventDefault();
-            UpdateGame();
-            
-        })
-
-
-        function createGame(){
-            let title=document.getElementById('title');
-            let year=document.getElementById('year');
-            let price=document.getElementById('price');
-
-            let game={
-                title:title.value,
-                year:year.value,
-                price:price.value
-            }
-
-           axios.post('http://localhost:8080/game',game,axiosConfig).then(result=>{
-                alert(result.statusText);
-           }).catch(error=>{
-                console.log(error)
-           })
-            
-        }
-
-        function DeleteGame(id){
-         axios.delete('http://localhost:8080/game/'+id,axiosConfig).then(result=>{
-            console.log(result)
-         }).catch(error=>{
-            console.log(error);
-         })
-
-        }
-
-        function LoadListItem(item){
-            let id=document.getElementById('idEdit');
-            let title=document.getElementById('titleEdit');
-            let year=document.getElementById('yearEdit');
-            let price=document.getElementById('priceEdit');
-
-            id.value=item.getAttribute('data-id');
-            title.value=item.getAttribute('data-title');
-            year.value=item.getAttribute('data-year');
-            price.value=item.getAttribute('data-price');
-
-           
-        }
-
-        function UpdateGame(){
-
-            let id=document.getElementById('idEdit');
-            let title=document.getElementById('titleEdit');
-            let year=document.getElementById('yearEdit');
-            let price=document.getElementById('priceEdit');
-
-            let game={           
-                title:title.value,
-                year:year.value,
-                price:price.value
-            }
-
-            axios.put('http://localhost:8080/game/'+id.value,game,axiosConfig).then(result=>{
-                alert(result.statusText);
-           }).catch(error=>{
-                console.log(error)
-           })
-        }
-    </script>
+    <script src="./src/js/main.js"></script>
 </body>
 </html>
