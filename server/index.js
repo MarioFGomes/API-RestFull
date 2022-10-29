@@ -14,7 +14,7 @@ app.use("/api-docs",Swagger.serve,Swagger.setup(swaggerFile))
 
  const JWTSecrete="fhfruidfufhrefhfyrfgfrfyfdffaasedddewwda";
 
-
+ 
  function Auth(req,res,next){
     const authToken=req.headers['authorization'];
     
@@ -68,13 +68,14 @@ app.get('/game/:id',Auth,(req,res)=>{
     
     if(isNaN(id)){
         res.status(400);
-        res.send("Argumeto passado não é um número");
+        res.json({message:'arguments must be a number'});
     }else{
         const game = BD.games.find(g=>g.id==id);
       if(game==undefined){
         res.status(404);
         res.json({message:'Game not exist'});
       }
+      res.status(200);
         res.json(game);
     }
 });
@@ -98,20 +99,23 @@ app.post('/game',Auth,(req,res)=>{
         });
         res.status(201).send('created');
     }
-   
+
 })
 
 app.delete('/game/:id',Auth,(req,res)=>{
     const id=req.params.id;
     if(isNaN(id)){
-        res.status(404).send('Invalid id');
+        res.status(400);
+        res.json({message:"Invalid id"});
     }else{
         let game=BD.games.findIndex(g=>g.id==id);
         if(game==-1){
-            res.status(404).send('Game not found');
+            res.status(404);
+            res.json({message:"Game not found"});
         }else{
             BD.games.splice(game, 1);
-            res.status(200).send('deleted');
+            res.status(200);
+            res.json({message:"deleted"});
         }
     }
 })
@@ -122,7 +126,7 @@ app.put('/game/:id',Auth,(req,res)=>{
 
     if(isNaN(id)){
         res.status(400);
-        res.send("Argumeto passado não é um número");
+        res.json({message:"The params must be a number"});
     }else{
         const game = BD.games.find(g=>g.id==id);
       if(game==undefined){
@@ -146,7 +150,8 @@ app.put('/game/:id',Auth,(req,res)=>{
 });
 
 app.post('/auth',(req,res)=>{ 
-    
+    const email = req.body.email;
+    const Password=req.body.Password;
     if(email!=undefined){
        let user= BD.users.find(user=>user.email==email);
        
@@ -159,7 +164,7 @@ app.post('/auth',(req,res)=>{
                 if(err){
             
                     res.status(500);
-                    res.json({error:`Erro ao gerar token ${err}`});
+                    res.json({error:`Error creating token ${err}`});
                 }else{
                   
                     res.status(200);
@@ -173,7 +178,7 @@ app.post('/auth',(req,res)=>{
         }
        }else{
             res.status(404);
-            res.json({message:"Usuario não existente"});
+            res.json({message:"User not found"});
        }
     }else{
         res.status(400);
@@ -182,5 +187,5 @@ app.post('/auth',(req,res)=>{
 })
 
 app.listen(8080,()=>{
-    console.log('API rodando...');
+    console.log('API run...');
 });

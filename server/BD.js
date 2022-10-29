@@ -30,8 +30,8 @@ let BD={
         {
             id:1,
             nome:"Mário Gomes",
-            email:"marioferreiragomes@gmail.com",
-            Password:"gomesgang123"
+            email:"mariogomes@gmail.com",
+            Password:"123"
         },
 
         {

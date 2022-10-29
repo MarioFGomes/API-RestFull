@@ -10,14 +10,15 @@
     },
     "servers":[
         {
-        "url":"http://localhost:8080"
+        "url":"http://localhost:8080",
+        "description":"development environment"
         }
 ],
     "paths": {
-        "/Login":{
+        "/auth":{
             "post":{
                 "tags":[
-                    "Auth"
+                    "Login"
                 ],
                 "summary":"Login",
                 "description":"Login to create a Token",
@@ -32,8 +33,8 @@
                                     "Password":{"type":"string"}
                                 },
                                 "example":{
-                                    "email":"example@example.com",
-                                    "Password":"123333"
+                                    "email":"mariogomes@gmail.com",
+                                    "Password":"123"
                                 }
                             }
                         }
@@ -41,7 +42,7 @@
                 },
                 "responses":{
                     "200":{
-                        "description":"Created",
+                        "description":"Token Created",
                         "contents":{
                             "application/json":{
                                 "schema":{
@@ -52,9 +53,319 @@
                                 }
                             }
                         }
+                    },
+                    "500":{
+                        "description":"Internal Server Error",
+                        "contents":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "Error":{"type":"string"}
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"Email Invalid",
+                        "contents":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "Error":{"type":"string"}
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401":{
+                        "description":"Password invalid",
+                        "contents":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "Error":{"type":"string"}
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404":{
+                        "description":"User not found",
+                        "contents":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "Error":{"type":"string"}
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/games":{
+            "get":{
+                "summary":"search All Games",
+                "tags":["Games"],
+                "security":[{"bearerAuth":[]}],
+                "responses":{
+                    "200":{
+                        "description":"OK"
+                    }
+                }
+            }
+        },
+
+        "/game/{id}":{
+            "get":{
+                "summary":"found Game by id",
+                "tags":["Games"],
+                "security":[{"bearerAuth":[]}],
+                "parameters":[
+                    {
+                        "name": "id",
+                        "in":"path",
+                        "description":" User ID ",
+                        "required":true
+                    }
+                
+                ],
+                "responses":{
+                    "200":{
+                        "description":"OK",
+                        "contents":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "message":{"type":"string"}
+                                    }
+                                }
+                            }
+                        }
+                    },
+
+                    "404":{
+                        "description":"Game not exist",
+                        "contents":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "Error":{"type":"string"}
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"argument invalid",
+                        "contents":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "Error":{"type":"string"}
+                                    }
+                                }
+                            }
+                        }
+                    }
+            }
+            },
+            "put":{
+                "tags":["Games"],
+                "security":[{"bearerAuth":[]}],
+                "parameters":[
+                    {
+                        "name": "id",
+                        "in":"path",
+                        "description":" User ID ",
+                        "required":true
+                    }
+                ],
+                "summary":"Update game",
+                "description":"Update a Game",
+                "requestBody":{
+                    "required":true,
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "type":"object",
+                                "properties":{
+                                    "title":{"type":"string"},
+                                    "year":{"type":"string"},
+                                    "price":{"type":"number"}
+                                },
+                                "example":{
+                                    "title":"PRO",
+                                    "year":"2022",
+                                    "price":"5000"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200":{
+                        "description":"OK",
+                        "contents":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "message":{"type":"string"}
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "400":{
+                    "description":"argument invalid",
+                    "contents":{
+                        "application/json":{
+                            "schema":{
+                                "type":"object",
+                                "properties":{
+                                    "Error":{"type":"string"}
+                                }
+                            }
+                        }
+                    }
+                },
+                "404":{
+                    "description":"Game not exist",
+                    "contents":{
+                        "application/json":{
+                            "schema":{
+                                "type":"object",
+                                "properties":{
+                                    "Error":{"type":"string"}
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete":{
+                "tags":["Games"],
+                "security":[{"bearerAuth":[]}],
+                "parameters":[
+                    {
+                        "name": "id",
+                        "in":"path",
+                        "description":" User ID ",
+                        "required":true
+                    }
+                ],
+                "summary":"delete game",
+                "description":"delete a Game",
+                "responses":{
+                    "200":{
+                        "description":"OK",
+                        "contents":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "message":{"type":"string"}
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"ID invalid",
+                        "contents":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "message":{"type":"string"}
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404":{
+                        "description":"Game not found",
+                        "contents":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "message":{"type":"string"}
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+
+        "/game":{
+            "post":{
+                "tags":["Games"],
+                "security":[{"bearerAuth":[]}],
+                "summary":"Create a new game",
+                "description":"Create a new Game",
+                "requestBody":{
+                    "required":true,
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "type":"object",
+                                "properties":{
+                                    "title":{"type":"string"},
+                                    "year":{"type":"string"},
+                                    "price":{"type":"number"}
+                                },
+                                "example":{
+                                    "title":"FIFA",
+                                    "year":"2022",
+                                    "price":"5000"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "201":{
+                        "description":"Game Created"                
+                    }
+                },
+                "400":{
+                    "description":"argument invalid",
+                    "contents":{
+                        "application/json":{
+                            "schema":{
+                                "type":"object",
+                                "properties":{
+                                    "Error":{"type":"string"}
+                                }
+                            }
+                        }
                     }
                 }
             }
         }
+        
+    },    
+    "components":{
+        "securitySchemes":{
+            "bearerAuth":{
+                "type":"http",
+                "scheme":"bearer",
+                "bearerFormat":"jwt"
+        }
+    }
     }
 }
