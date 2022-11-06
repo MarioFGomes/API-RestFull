@@ -1,3 +1,33 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body{
+    font-family: Roboto,sans-serif;
+}
+
+.classHiden{
+    display: none;
+}
+
+.classShow{
+    display: block;
+}
+
+table thead{
+    font-weight: bold;
+    color: black;
+    
+}
+
+table thead tr td{
+   padding: 1rem;
+   margin-right: 2rem;
+    
+}
+
+table tbody tr td{
+    padding: 1rem;
+    margin-right: 2rem;
+     
+ }

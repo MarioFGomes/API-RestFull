@@ -4,103 +4,81 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./src/css/Waves.css">
     <link rel="stylesheet" href="./src/css/style.css">
     <link rel="stylesheet" href="../server/dist/output.css">
+    <script src="./src/js/Tailwindcss3.1.8.js"></script>
     <link href="https: //fonts.googleapis.com/css2? family= Roboto & display=swap" rel="stylesheet">
-    <style>
-        body{
-        font-family: Roboto,sans-serif;
-}
-    </style>
     <title>Consumindo API</title>
 </head>
-<body>
+<body class="bg-blue-200 h-screen w-screen flex items-center justify-center">
 
-    
-    <!--Hey! This is the original version
-of Simple CSS Waves-->
-
-<div class="header">
-
-<!--Content before waves-->
-<div class="w-16 md:w-32 lg:w-48 h-8 p-4 bg-white " id="login">
-    <h2 class="text-2xl #67e8f9">Login</h2>
+<div class="w-80" id="login">
+<h2 class="font-bold text-center mb-4 text-white">Login</h2>
+<div class="bg-white shadow-md rounded-md p-4">
     <form action="" id="form3">
-        <label for="">email</label>
-        <input type="email" id="emailLogin" placeholder="Digite o seu email">
-        <label for="">password</label>
-        <input type="password" id="passwordLogin" placeholder="******">
-        <button onclick="Logar()">Logar</button>
+        <label class="text-sm text-gray-800 mb-2 block" for="emailLogin">Email</label>
+        <input class="w-full bg-gray-50 border focus:border-blue-500 border-gray-300 rounded px-1 py-1 text-sm text-gray-800 placeholder-gray-300 focus:outline-none" type="email" id="emailLogin" placeholder="Digite o seu email"> <br>
+        <label class="text-sm text-gray-800 mb-1" for="passwordLogin">Password</label> <br>
+        <input class="w-full bg-gray-50 border focus:border-blue-500 border-gray-300 rounded px-1 py-1 text-sm text-gray-800 placeholder-gray-300 focus:outline-none" type="password" id="passwordLogin" placeholder="******"> <br>
+        <button class="w-full bg-blue-500 px-4 py-1 text-white mt-4 rounded-md ring-2 shadow-sm hover:bg-blue-600"  onclick="Logar()">Login</button>
     </form>
+</div>
 </div>
 
     
+    <div class="container mx-auto px-8 py-8 classHiden" id="tabgame">
+        <div class="tabelaGames bg-white p-4 rounded-lg shadow-md" >
+            <h1 class="text-center">Tabela de Games</h1>
+            <p class="text-right cursor-pointer text-blue-400 px-8" id="divTabCriarGame">Criar Novo Game</p>
+            <table class=" mx-auto bg-white border-collapse">
+                <thead id="thead" >
+                    <tr class=" text-left px-8 py-4">
+                        <td>ID</td>
+                        <td>Titulo</td>
+                        <td>Data Lançamento</td>
+                        <td>Preço</td>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                    
+                </tbody>
+            </table>
+        </div>
 
-    <div class="tabelaGames" style="display:none">
-        <h1>Tabela de Games</h1>
-        <ul></ul>
     </div>
-
-    
-    <div class="cadastroNovoGame" style="display:none;">
-        <h2>Cadastro Novo Game</h2>
-
-    <form action="" id="form1">
-        <label for="title">Título</label>
-        <input type="text" name="title" id="title" placeholder="Digite o Titulo"><br>
-        <label for="year">Ano</label>
-        <input type="number" name="year" id="year"> <br>
-        <label for="price">Preço</label>
-        <input type="number" name="price" id="price"> <br>
-        <button type="submit">Salvar</button>
-    </form>
-    </div>
-
    
 
-   <div class="editarGame" style="display:none;">
-
-     <h2>Editar Game</h2>
-
-    <form action="" id="form2">
-        <label for="title">Título</label>
-        <input type="hidden" name="id" id="idEdit">
-        <input type="text" name="title" id="titleEdit" placeholder="Digite o Titulo"><br>
-        <label for="year">Ano</label>
-        <input type="number" name="year" id="yearEdit"> <br>
-        <label for="price">Preço</label>
-        <input type="number" name="price" id="priceEdit"> <br>
-        <button type="submit">Editar</button>
+    
+    <div class="cadastroNovoGame classHiden rounded-md  container w-80 mx-auto px-8 py-8 bg-white">
+        <h2 class="text-center text-black">Cadastro Novo Game</h2>
+        <a href="#" class="text-right text-sm text-blue-400" id="vertabela">Lista de Games</a>
+    <form action="" id="form1" class="w-full px-8 py-8">
+        <label class="text-sm text-gray-800 mb-2 block" for="title">Título</label>
+        <input class=" w-full bg-gray-50 border focus:border-blue-500 border-gray-300 rounded px-1 py-1 text-sm text-gray-800 placeholder-gray-300 focus:outline-none" type="text" name="title" id="title" placeholder="Digite o Titulo"><br>
+        <label class="text-sm text-gray-800 mb-2 block" for="year">Ano</label>
+        <input class=" w-full bg-gray-50 border focus:border-blue-500 border-gray-300 rounded px-1 py-1 text-sm text-gray-800 placeholder-gray-300 focus:outline-none" type="date" name="year" id="year"> <br>
+        <label class="text-sm text-gray-800 mb-2 block" for="price">Preço</label>
+        <input class="w-full bg-gray-50 border focus:border-blue-500 border-gray-300 rounded px-1 py-1 text-sm text-gray-800 placeholder-gray-300 focus:outline-none" type="number" name="price" id="price"> <br>
+        <button class="w-full bg-green-500 px-4 py-1 text-white mt-4 rounded-md shadow-sm hover:bg-green-600" type="submit">Salvar</button>
     </form>
-   </div>
+    </div>
 
-<!--Waves Container-->
-<div>
-<svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
-<defs>
-<path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
-</defs>
-<g class="parallax">
-<use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7" />
-<use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
-<use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
-<use xlink:href="#gentle-wave" x="48" y="7" fill="#fff" />
-</g>
-</svg>
+
+<div class="editarGame classHiden classHiden rounded-md  container w-80 mx-auto px-8 py-8 bg-white">
+
+    <h2 class="text-center text-black">Editar Game</h2>
+
+    <form action="" id="form2" class="w-full px-8 py-8">
+        <label class="text-sm text-gray-800 mb-2 block" for="title">Título</label>
+        <input type="hidden" name="id" id="idEdit">
+        <input class=" w-full bg-gray-50 border focus:border-blue-500 border-gray-300 rounded px-1 py-1 text-sm text-gray-800 placeholder-gray-300 focus:outline-none" type="text" name="title" id="titleEdit" placeholder="Digite o Titulo"><br>
+        <label class="text-sm text-gray-800 mb-2 block" for="year">Ano</label>
+        <input class=" w-full bg-gray-50 border focus:border-blue-500 border-gray-300 rounded px-1 py-1 text-sm text-gray-800 placeholder-gray-300 focus:outline-none" type="date" name="year" id="yearEdit"> <br>
+        <label class="text-sm text-gray-800 mb-2 block" for="price">Preço</label>
+        <input class=" w-full bg-gray-50 border focus:border-blue-500 border-gray-300 rounded px-1 py-1 text-sm text-gray-800 placeholder-gray-300 focus:outline-none" type="number" name="price" id="priceEdit"> <br>
+        <button class="w-full bg-green-500 px-4 py-1 text-white mt-4 rounded-md shadow-sm hover:bg-green-600" type="submit">Editar</button>
+    </form>
 </div>
-<!--Waves end-->
-
-</div>
-<!--Header ends-->
-
-<!--Content starts-->
-<div class="content flex">
-<p>By.Goodkatz | Free to use <a href="https://animatedbackgrounds.me/" target="_blank">for found more</a></p>
-</div>
-<!--Content ends-->
-
     <script src="./src/js/axios.min.js"></script>
     <!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>-->
     <script src="./src/js/main.js"></script>
